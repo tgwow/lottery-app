@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import { ThemeProvider } from 'styled-components';
 import theme from './utils/theme';
@@ -11,10 +12,10 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
-			<>
+			<Router>
 				<GlobalStyles />
 				<App />
-			</>
+			</Router>
 		</ThemeProvider>
 	</React.StrictMode>,
 	document.getElementById('root')

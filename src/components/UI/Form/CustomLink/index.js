@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 export const BUTTONS_COLORS = {
@@ -12,10 +12,9 @@ export const baseStyle = css`
 	color: ${({ color }) => (BUTTONS_COLORS[color] ? BUTTONS_COLORS[color] : 'var(--color-grayLight)')};
 	cursor: pointer;
 	transition: all 0.2s;
-	// display: flex;
+	display: flex;
 	align-items: center;
 	justify-content: center;
-	// display: inline-block;
 	width: 100%;
 
 	&:hover {
@@ -28,18 +27,18 @@ export const baseStyle = css`
 	}
 `;
 
-export const StyledLink = styled.div`
+export const StyledLink = styled(Link)`
 	${baseStyle}
 	font-size: 1.7rem;
 	text-align: right;
-	justify-content: ${({ reset }) => (reset ? 'flex-end' : 'flex-start')};
+	justify-content: flex-end;
 	margin: 2.5rem 0;
 	padding-right: 2.5rem;
 `;
 
-const CustomLink = ({ link, children, reset, color }) => {
+const CustomLink = ({ link, children, color }) => {
 	return (
-		<StyledLink reset={reset} to={link} color={color}>
+		<StyledLink to={link} color={color}>
 			{children}
 		</StyledLink>
 	);

@@ -2,12 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import * as Yup from 'yup';
 import { Formik, Field } from 'formik';
-import { VscArrowRight } from 'react-icons/vsc';
+import { VscArrowRight, VscArrowLeft } from 'react-icons/vsc';
 
 // components
 import Heading from '../../../components/UI/Headings';
 import Input from '../../../components/UI/Form/Input';
-import CustomLink from '../../../components/UI/Form/CustomLink';
 import Button from '../../../components/UI/Form/Button';
 import StyledLink from '../../../components/UI/StyledLink';
 
@@ -17,19 +16,17 @@ export const StyledArrowRight = styled(VscArrowRight)`
 	margin-left: 1.5rem;
 `;
 
-const SigninSchema = Yup.object({
+const SignupSchema = Yup.object({
 	email: Yup.string().email('Invalid email address.').required('This field is required.'),
-	password: Yup.string().min(6, 'Must have at least 6 characters.').required('This field is required.'),
 });
 
-const Signin = () => {
+const ResetPassword = () => {
 	return (
 		<Formik
 			initialValues={{
 				email: '',
-				password: '',
 			}}
-			validationSchema={SigninSchema}
+			validationSchema={SignupSchema}
 			onSubmit={async (values) => {
 				// await login(values);
 				alert(JSON.stringify(values, null, 2));
@@ -39,20 +36,18 @@ const Signin = () => {
 			{({ isSubmitting, isValid }) => (
 				<FormWrapper>
 					<Heading bold type="h2" size="3.3" italic>
-						Authentication
+						Reset Password
 					</Heading>
 					<StyledForm>
 						<Field name="email" type="email" placeholder="Email" component={Input} />
-						<Field name="password" type="password" placeholder="Password" component={Input} />
-						<CustomLink link="reset-password">I forget my password</CustomLink>
 						<Button color="green" disabled={!isValid || isSubmitting} type="submit" bold size="3.5">
-							Log In
+							Send link
 							<StyledArrowRight />
 						</Button>
 					</StyledForm>
-					<StyledLink link="/signup" color="gray" type="submit" bold size="3.5">
-						Sign Up
-						<StyledArrowRight />
+					<StyledLink link="/sign" color="gray" type="submit" bold size="3.5">
+						<VscArrowLeft />
+						Back
 					</StyledLink>
 					{/*<MessageWrapper>*/}
 					{/*	<Message error show={error}>*/}
@@ -65,4 +60,4 @@ const Signin = () => {
 	);
 };
 
-export default Signin;
+export default ResetPassword;

@@ -10,6 +10,7 @@ const Wrapper = styled.footer`
 	font-size: 1.5rem;
 	text-align: center;
 	border-top: 2px solid var(--color-border);
+	font-style: normal;
 `;
 
 const Footer = () => {

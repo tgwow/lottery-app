@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import { baseStyle } from '../CustomLink/index';
+import { baseStyle } from '../Form/CustomLink/index';
 
-export const StyledButton = styled.button`
+export const StyledLink = styled(Link)`
 	${baseStyle}
 	display: flex;
 	align-items: center;
@@ -16,11 +17,11 @@ export const StyledButton = styled.button`
 	margin-bottom: ${({ noMargin }) => (noMargin ? '0' : '2.5')}rem;
 `;
 
-const CustomButton = ({ link, children, color, bold, size }) => {
+const CustomLink = ({ link, children, color, bold, size }) => {
 	return (
-		<StyledButton to={link} color={color} bold={bold} size={size}>
+		<StyledLink to={link} color={color} bold={bold} size={size}>
 			{children}
-		</StyledButton>
+		</StyledLink>
 	);
 };
-export default CustomButton;
+export default CustomLink;

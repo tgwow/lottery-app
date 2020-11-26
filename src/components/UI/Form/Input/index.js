@@ -18,11 +18,7 @@ export const StyledInput = styled.input`
 
 	::placeholder,
 	::-webkit-input-placeholder {
-		font-weight: 700;
-		font-style: italic;
-		color: var(--color-grayLight);
-	}
-	:-ms-input-placeholder {
+		font-size: 1.8rem;
 		font-weight: 700;
 		font-style: italic;
 		color: var(--color-grayLight);
@@ -33,7 +29,7 @@ export const Error = styled.div`
 	visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
 	transform: ${({ show }) => (show ? 'translateY(5.5rem)' : 'translateY(2.5rem)')};
 	opacity: ${({ show }) => (show ? '1' : '0')};
-	color: red;
+	color: orangered;
 	font-size: 1.3rem;
 	position: absolute;
 	top: 0;
