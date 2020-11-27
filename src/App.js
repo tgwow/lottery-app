@@ -4,6 +4,7 @@ import { Redirect, Switch, Route } from 'react-router-dom';
 import Layout from './hoc/Layout/Layout';
 import ResetPassword from './containers/Auth/ResetPassword';
 
+const Bets = lazy(() => import('./containers/RecentGames'));
 const Signin = lazy(() => import('./containers/Auth/Signin'));
 const Siginup = lazy(() => import('./containers/Auth/Signup'));
 
@@ -13,6 +14,7 @@ const App = () => {
 			<Route path="/sign" render={(props) => <Signin {...props} />} />
 			<Route path="/signup" render={(props) => <Siginup {...props} />} />
 			<Route path="/reset-password" render={(props) => <ResetPassword {...props} />} />
+			<Route path="/" exact render={(props) => <Bets {...props} />} />
 			<Redirect to="/sign" />
 		</Switch>
 	);

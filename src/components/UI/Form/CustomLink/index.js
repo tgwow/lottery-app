@@ -15,7 +15,6 @@ export const baseStyle = css`
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
 
 	&:hover {
 		transform: translateY(-2px);

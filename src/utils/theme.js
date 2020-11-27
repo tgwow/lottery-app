@@ -11,6 +11,9 @@ const theme = {
 		grayVeryLight: '#C1C1C1',
 		grayDark: '#535351',
 		green: '#B5C401',
+		lotofacil: '#7F3992',
+		megasena: '#01AC66',
+		lotomania: '#F79C31',
 	},
 };
 export default theme;

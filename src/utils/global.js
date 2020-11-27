@@ -29,6 +29,10 @@ export default createGlobalStyle`
 		--color-grayVeryLight: ${(props) => props.theme.colors.grayVeryLight};
 		--color-grayDark: ${(props) => props.theme.colors.grayDark};
 		--color-green: ${(props) => props.theme.colors.green};
+		--color-lotofacil: ${(props) => props.theme.colors.lotofacil};
+		--color-megasena: ${(props) => props.theme.colors.megasena};
+		--color-lotomania: ${(props) => props.theme.colors.lotomania};
+
     @media (max-width: 600px) {
       font-size: 50%;
     }

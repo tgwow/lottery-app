@@ -17,9 +17,9 @@ export const StyledLink = styled(Link)`
 	margin-bottom: ${({ noMargin }) => (noMargin ? '0' : '2.5')}rem;
 `;
 
-const CustomLink = ({ link, children, color, bold, size }) => {
+const CustomLink = ({ link, children, ...rest }) => {
 	return (
-		<StyledLink to={link} color={color} bold={bold} size={size}>
+		<StyledLink to={link} {...rest}>
 			{children}
 		</StyledLink>
 	);

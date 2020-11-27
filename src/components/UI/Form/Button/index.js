@@ -5,6 +5,7 @@ import { baseStyle } from '../CustomLink/index';
 
 export const StyledButton = styled.button`
 	${baseStyle}
+	width: 100%;
 	display: flex;
 	align-items: center;
 	font-size: 2.2rem;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Hero from '../../components/Hero/Hero';
 import Footer from '../../components/Footer/Footer';
+import Header from '../../components/Header';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -14,23 +15,25 @@ const Layout = ({ children }) => {
 	const isAuth = false;
 
 	let content = (
-		<>
-			<Wrapper>
-				<Hero />
-				{children}
-			</Wrapper>
-			<Footer />
-		</>
+		<Wrapper>
+			<Hero />
+			{children}
+		</Wrapper>
 	);
-	if (isAuth)
+	if (!isAuth)
 		content = (
 			<>
-				<header>logo, account, logout</header>
-				<main>content</main>
+				<Header />
+				{children}
 			</>
 		);
 
-	return content;
+	return (
+		<>
+			{content}
+			<Footer />
+		</>
+	);
 };
 
 export default Layout;

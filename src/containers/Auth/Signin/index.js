@@ -1,8 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import * as Yup from 'yup';
 import { Formik, Field } from 'formik';
-import { VscArrowRight } from 'react-icons/vsc';
 
 // components
 import Heading from '../../../components/UI/Headings';
@@ -11,11 +9,8 @@ import CustomLink from '../../../components/UI/Form/CustomLink';
 import Button from '../../../components/UI/Form/Button';
 import StyledLink from '../../../components/UI/StyledLink';
 
+import { StyledArrowRight } from '../../../components/shared';
 import { FormWrapper, StyledForm } from '../../../components/UI/Form/elements';
-
-export const StyledArrowRight = styled(VscArrowRight)`
-	margin-left: 1.5rem;
-`;
 
 const SigninSchema = Yup.object({
 	email: Yup.string().email('Invalid email address.').required('This field is required.'),
