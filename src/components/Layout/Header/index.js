@@ -1,14 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Logo from '../Logo';
+import Logo from '../../UI/Logo';
 import NavigationItems from './Navigation/NavigationItems';
-
-export const Container = styled.div`
-	width: 100%;
-	max-width: 120rem;
-	margin: 0 auto;
-	height: 100%;
-`;
+import { Container } from '../../shared';
 
 const FixedWrapper = styled.header`
 	//position: fixed;

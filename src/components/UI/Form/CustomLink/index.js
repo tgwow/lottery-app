@@ -2,19 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-export const BUTTONS_COLORS = {
-	gray: 'var(--color-gray)',
-	green: 'var(--color-green)',
-	violet: 'var(--color-violet)',
-};
-
+import { setColor } from '../../../shared';
 export const baseStyle = css`
-	color: ${({ color }) => (BUTTONS_COLORS[color] ? BUTTONS_COLORS[color] : 'var(--color-grayLight)')};
+	${setColor};
 	cursor: pointer;
 	transition: all 0.2s;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	outline: none;
+	border: none;
 
 	&:hover {
 		transform: translateY(-2px);

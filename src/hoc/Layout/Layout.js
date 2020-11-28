@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Hero from '../../components/Hero/Hero';
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/Header';
+import Hero from '../../components/UI/Hero/Hero';
+import Footer from '../../components/Layout/Footer/Footer';
+import Header from '../../components/Layout/Header';
+import { Container } from '../../components/shared';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -24,7 +25,7 @@ const Layout = ({ children }) => {
 		content = (
 			<>
 				<Header />
-				{children}
+				<Container>{children}</Container>
 			</>
 		);
 

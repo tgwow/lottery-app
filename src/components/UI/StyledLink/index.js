@@ -12,7 +12,7 @@ export const StyledLink = styled(Link)`
 	background: transparent;
 	outline: none;
 	border: none;
-	font-weight: ${({ bold }) => (bold ? '700' : '300')};
+	font-weight: ${({ weight }) => (weight ? weight : '400')};
 	font-size: ${({ size }) => (size ? size : '1')}rem;
 	margin-bottom: ${({ noMargin }) => (noMargin ? '0' : '2.5')}rem;
 `;

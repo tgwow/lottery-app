@@ -2,10 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Games from '../../components/Games';
-import Filter from './Filter';
+import Filter from '../../components/RecentGames/Filter';
 import Headings from '../../components/UI/Headings';
 import StyledLink from '../../components/UI/StyledLink';
-import { Container } from '../../components/Header';
 import { StyledArrowRight } from '../../components/shared';
 
 const Header = styled.header`
@@ -25,21 +24,21 @@ const Wrapper = styled.div`
 
 const RecentGames = () => {
 	return (
-		<Container>
+		<>
 			<Header>
 				<Wrapper>
-					<Headings type="h2" size="2.6" bold uppercase noMargin>
+					<Headings type="h2" size="2.6" weight="600" uppercase>
 						Recent Games
 					</Headings>
 					<Filter />
 				</Wrapper>
-				<StyledLink bold size="2.6" color="green" noMargin>
+				<StyledLink link="/bet" weight="600" size="2.6" color="green">
 					New Bet
 					<StyledArrowRight />
 				</StyledLink>
 			</Header>
 			<Games />
-		</Container>
+		</>
 	);
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Headings from '../../../components/UI/Headings';
+import Headings from '../../UI/Headings';
 import FilterOptions from './FilterOptions';
 
 const Wrapper = styled.nav`

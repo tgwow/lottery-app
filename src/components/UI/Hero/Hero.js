@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Heading from '../UI/Headings';
+import Heading from '../Headings';
 
 const Wrapper = styled.div`
 	font-style: italic;

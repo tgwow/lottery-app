@@ -16,9 +16,12 @@ export default createGlobalStyle`
   outline: none;
   }
   html {
+  	height: 100%;
     font-size: 62.5%; // 1 rem == 10px
     box-sizing: border-box;
     --color-background: ${(props) => props.theme.colors.background};
+    --color-number: ${(props) => props.theme.colors.number};
+    --color-cart: ${(props) => props.theme.colors.cart};
 		--color-shadow: ${(props) => props.theme.colors.shadow};
 		--color-border: ${(props) => props.theme.colors.border};
 		--color-borderLight: ${(props) => props.theme.colors.borderLight};
@@ -32,6 +35,7 @@ export default createGlobalStyle`
 		--color-lotofacil: ${(props) => props.theme.colors.lotofacil};
 		--color-megasena: ${(props) => props.theme.colors.megasena};
 		--color-lotomania: ${(props) => props.theme.colors.lotomania};
+		--color-greenDark: ${(props) => props.theme.colors.greenDark};
 
     @media (max-width: 600px) {
       font-size: 50%;
@@ -52,6 +56,13 @@ export default createGlobalStyle`
     line-height: 1.6;
     background-color: var(--color-background);
     color: var(--color-gray);
+    height: 100%;
+  }
+
+  #root {
+  	min-height: 100%;
+  	display: flex;
+  	flex-direction: column;
   }
   a, button {
     cursor: pointer;

@@ -7,12 +7,12 @@ const FiOptions = styled.ul`
 	list-style: none;
 	display: flex;
 	align-items: center;
-	margin-left: 2rem;
+	margin-left: ${({ noMargin }) => (noMargin ? '' : '2rem')};
 `;
 
-const FilterOptions = () => {
+const FilterOptions = ({ noMargin }) => {
 	return (
-		<FiOptions>
+		<FiOptions noMargin={noMargin}>
 			<FiOption active label="Lotofácil" type="lotofacil" />
 			<FiOption label="Mega-Sena" type="megasena" />
 			<FiOption label="Lotomania" type="lotomania" />

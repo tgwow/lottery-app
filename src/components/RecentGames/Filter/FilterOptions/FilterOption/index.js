@@ -1,7 +1,7 @@
 import React from 'react';
-import GameButton from '../../../../../components/UI/GameButton';
+import GameButton from '../../../../UI/GameButton';
 import styled from 'styled-components';
-import { COLORS } from '../../../../../utils/colors';
+import { COLOR_MAP } from '../../../../../utils/colors';
 
 const FiOption = styled.li`
 	&:not(:last-child) {
@@ -13,7 +13,7 @@ const FilterOption = ({ type, label, ...props }) => {
 	return (
 		<>
 			<FiOption>
-				<GameButton {...props} color={COLORS[type]}>
+				<GameButton {...props} color={COLOR_MAP[type]}>
 					{label}
 				</GameButton>
 			</FiOption>
