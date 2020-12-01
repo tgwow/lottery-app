@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
+import { fetchTypesSaga } from '../../store/actions/types';
 
 import Description from '../../components/Bet/Description';
 import Cart from '../../components/Bet/Cart';
 import BetControls from '../../components/Bet/BetControls';
 import Board from '../../components/Bet/Board';
-import Number from '../../components/Bet/Board/Number';
+// import Number from '../../components/Bet/Board/Number';
 
 const Wrapper = styled.div`
 	margin-top: 7rem;
@@ -37,20 +40,18 @@ const Right = styled.div`
 	}
 `;
 
-const Bet = () => {
-	let numbers;
-	numbers = [...Array(50)].map((_, i) => (
-		<Number key={i + 1} bgColor="number" color="white">
-			{i + 1}
-		</Number>
-	));
-
+// eslint-disable-next-line react/display-name
+const Bet = React.memo((props) => {
+	useEffect(() => {
+		props.fetchTypesSaga();
+	}, [fetchTypesSaga]);
+	console.log(props);
 	return (
 		<>
 			<Wrapper>
 				<Left>
-					<Description type="mega-sena" />
-					<Board>{numbers}</Board>
+					<Description />
+					<Board>123</Board>
 					<BetControls />
 				</Left>
 				<Right>
@@ -59,6 +60,10 @@ const Bet = () => {
 			</Wrapper>
 		</>
 	);
-};
+});
 
-export default Bet;
+const mapStateToProps = ({ type }) => ({
+	types: type.types,
+});
+
+export default connect(mapStateToProps, { fetchTypesSaga })(Bet);

@@ -3,7 +3,7 @@ import React from 'react';
 import Headings from '../../../components/UI/Headings';
 import FilterOptions from '../../RecentGames/Filter';
 
-const Description = ({ type }) => {
+const Description = ({ type, desc }) => {
 	return (
 		<>
 			<Headings type="h2" uppercase margin="0 0 3rem 0" size="2.6" weight="300">
@@ -18,8 +18,7 @@ const Description = ({ type }) => {
 				Fill your bet
 			</Headings>
 			<Headings type="p" size="1.6" color="grayLight">
-				Mark as many numbers are you want up to a maximum of 50. Win by hitting 15, 16, 17, 18, 19, 20 or none of the 20
-				numbers drawn.
+				{desc}
 			</Headings>
 		</>
 	);

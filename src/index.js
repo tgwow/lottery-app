@@ -1,21 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
+// styles
 import { ThemeProvider } from 'styled-components';
 import theme from './utils/theme';
 import GlobalStyles from './utils/global';
 
+// authContext
+import AuthProvider from './contexts/auth.context';
+
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+// store
+import store from './store';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
-			<Router>
-				<GlobalStyles />
-				<App />
-			</Router>
+			<Provider store={store}>
+				<AuthProvider>
+					<Router>
+						<GlobalStyles />
+						<App />
+					</Router>
+				</AuthProvider>
+			</Provider>
 		</ThemeProvider>
 	</React.StrictMode>,
 	document.getElementById('root')

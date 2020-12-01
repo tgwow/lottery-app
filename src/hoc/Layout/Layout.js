@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Hero from '../../components/UI/Hero/Hero';
 import Footer from '../../components/Layout/Footer/Footer';
 import Header from '../../components/Layout/Header';
 import { Container } from '../../components/shared';
+import { AuthContext } from '../../contexts/auth.context';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -13,7 +14,7 @@ const Wrapper = styled.div`
 `;
 
 const Layout = ({ children }) => {
-	const isAuth = false;
+	const { isAuth } = useContext(AuthContext);
 
 	let content = (
 		<Wrapper>
@@ -21,7 +22,7 @@ const Layout = ({ children }) => {
 			{children}
 		</Wrapper>
 	);
-	if (!isAuth)
+	if (isAuth)
 		content = (
 			<>
 				<Header />

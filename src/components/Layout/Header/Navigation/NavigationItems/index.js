@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import NavigationItem from './NavigationItem';
 import { VscArrowRight } from 'react-icons/vsc';
+import { AuthContext } from '../../../../../contexts/auth.context';
 
 const Nav = styled.nav`
 	height: 100%;
@@ -23,12 +24,11 @@ const WrapperRight = styled.div`
 `;
 
 const NavigationItems = () => {
+	const { isAuth } = useContext(AuthContext);
 	return (
 		<Nav>
 			<Ul>
-				<WrapperLeft>
-					<NavigationItem link="/">Home</NavigationItem>
-				</WrapperLeft>
+				<WrapperLeft>{isAuth && <NavigationItem link="/">Home</NavigationItem>}</WrapperLeft>
 				<WrapperRight>
 					<NavigationItem link="/account">Account</NavigationItem>
 					<NavigationItem link="/logout">

@@ -28,7 +28,7 @@ const Lottery = styled.div`
 const Hero = () => {
 	return (
 		<Wrapper>
-			<Heading type="h1" size="6.6" bold italic>
+			<Heading type="h1" size="6.6" weight={600} italic color="gray">
 				The
 				<br />
 				Greatest

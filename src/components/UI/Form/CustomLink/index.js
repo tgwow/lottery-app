@@ -21,6 +21,11 @@ export const baseStyle = css`
 		transform: translateY(2px);
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
 `;
 
 export const StyledLink = styled(Link)`
@@ -32,9 +37,9 @@ export const StyledLink = styled(Link)`
 	padding-right: 2.5rem;
 `;
 
-const CustomLink = ({ link, children, color }) => {
+const CustomLink = ({ link, children, color, clicked }) => {
 	return (
-		<StyledLink to={link} color={color}>
+		<StyledLink to={link} color={color} onClick={clicked}>
 			{children}
 		</StyledLink>
 	);

@@ -23,6 +23,22 @@ const Wrapper = styled.div`
 `;
 
 const RecentGames = () => {
+	// const [games, setGames] = useState([]);
+	// const [loading, setLoading] = useState(false);
+
+	// useEffect(() => {
+	// 	async function fetchGames() {
+	// 		setLoading(true);
+	// 		try {
+	// 			const response = await api.get('/types');
+	// 			setGames(response.data);
+	// 			setLoading(false);
+	// 		} catch (e) {
+	// 			console.log(e);
+	// 		}
+	// 	}
+	// 	fetchGames();
+	// }, []);
 	return (
 		<>
 			<Header>

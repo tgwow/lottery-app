@@ -1,19 +1,21 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useContext } from 'react';
 import { Redirect, Switch, Route } from 'react-router-dom';
 
 import Layout from './hoc/Layout/Layout';
 import ResetPassword from './containers/Auth/ResetPassword';
 import Spinner from './components/UI/Spinner';
+import { AuthContext } from './contexts/auth.context';
 
-const RecentGames = lazy(() => import('./containers/RecentGames'));
 const Signin = lazy(() => import('./containers/Auth/Signin'));
 const Signup = lazy(() => import('./containers/Auth/Signup'));
 
+const RecentGames = lazy(() => import('./containers/RecentGames'));
 const Bet = lazy(() => import('./containers/Bet'));
+const Logout = lazy(() => import('./containers/Auth/Logout'));
 
 const App = () => {
-	const isAuth = true;
-
+	const { isAuth } = useContext(AuthContext);
+	console.log('[App] says: isAuth?', isAuth);
 	let content = (
 		<Switch>
 			<Route path="/sign" render={(props) => <Signin {...props} />} />
@@ -27,6 +29,7 @@ const App = () => {
 		content = (
 			<Switch>
 				<Route path="/bet" exact render={(props) => <Bet {...props} />} />
+				<Route path="/logout" render={(props) => <Logout {...props} />} />
 				<Route path="/" exact render={(props) => <RecentGames {...props} />} />
 				<Redirect to="/" />
 			</Switch>
