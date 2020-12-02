@@ -2,11 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import { setColor } from '../../../shared';
 
-const StyledNumber = styled.div`
+const StyledNumber = styled.button`
 	${setColor};
+	//background-color: var(--color-number);
+	background-color: ${({ active, bgHover }) => (active ? bgHover : 'var(--color-number)')};
+	color: var(--color-white);
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
+	border: none;
 	border-radius: 50%;
 	width: 6rem;
 	height: 6rem;
@@ -19,10 +23,15 @@ const StyledNumber = styled.div`
 	cursor: pointer;
 
 	&:hover {
-		background-color: var(--color-green);
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+		background-color: ${({ bgHover }) => bgHover};
+		color: white;
 	}
-	.active {
-		background-color: var(--color-green);
+	&:active {
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35);
+		background-color: ${({ bgHover }) => bgHover};
+		transform: translateY(1px);
+		color: white;
 	}
 `;
 

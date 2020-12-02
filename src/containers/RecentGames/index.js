@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Games from '../../components/Games';
+// import Games from '../../components/Game';
 import Filter from '../../components/RecentGames/Filter';
 import Headings from '../../components/UI/Headings';
 import StyledLink from '../../components/UI/StyledLink';
@@ -23,22 +23,6 @@ const Wrapper = styled.div`
 `;
 
 const RecentGames = () => {
-	// const [games, setGames] = useState([]);
-	// const [loading, setLoading] = useState(false);
-
-	// useEffect(() => {
-	// 	async function fetchGames() {
-	// 		setLoading(true);
-	// 		try {
-	// 			const response = await api.get('/types');
-	// 			setGames(response.data);
-	// 			setLoading(false);
-	// 		} catch (e) {
-	// 			console.log(e);
-	// 		}
-	// 	}
-	// 	fetchGames();
-	// }, []);
 	return (
 		<>
 			<Header>
@@ -53,7 +37,6 @@ const RecentGames = () => {
 					<StyledArrowRight />
 				</StyledLink>
 			</Header>
-			<Games />
 		</>
 	);
 };

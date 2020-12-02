@@ -1,17 +1,15 @@
 import React from 'react';
-import Headings from '../../UI/Headings';
+import Headings from '../UI/Headings';
 import styled from 'styled-components';
 
-import { setColor } from '../../shared';
+import { setColor } from '../shared';
 
 const Wrapper = styled.article`
 	padding-left: 1.5rem;
 	position: relative;
-
 	&:not(:last-child) {
 		margin-bottom: 2.5rem;
 	}
-
 	&::before {
 		${setColor};
 		content: '';
@@ -24,10 +22,10 @@ const Wrapper = styled.article`
 	}
 `;
 
-const Game = ({ numbers, date, price, label, type }) => {
+const Game = ({ numbers, date, price, label, type, onClick }) => {
 	return (
 		<>
-			<Wrapper bgColor={type}>
+			<Wrapper bgColor={type} onClick={onClick}>
 				<Headings size="1.8" weight="600" margin="0 0 8px 0" color="grayLight">
 					{numbers}
 				</Headings>

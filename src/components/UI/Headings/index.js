@@ -8,7 +8,7 @@ const baseStyle = css`
 	font-size: ${({ size }) => (size ? size : '1')}rem;
 	font-style: ${({ noItalic }) => noItalic && 'normal'};
 	margin: ${({ margin }) => (margin ? margin : '0')};
-	text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'capitalize')};
+	text-transform: ${({ uppercase }) => (uppercase ? 'uppercase' : 'normal')};
 `;
 
 const Heading = styled.div`

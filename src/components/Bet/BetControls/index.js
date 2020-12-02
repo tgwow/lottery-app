@@ -21,14 +21,18 @@ const Left = styled.div`
 		margin-right: 2rem;
 	}
 `;
-const BetControls = () => {
+const BetControls = ({ clear, complete, add }) => {
 	return (
 		<Wrapper>
 			<Left>
-				<BetControl color="greenDark">Complete Game</BetControl>
-				<BetControl color="greenDark">Clear Game</BetControl>
+				<BetControl color="greenDark" onClick={(range, max) => complete(range, max)}>
+					Complete Game
+				</BetControl>
+				<BetControl color="greenDark" onClick={clear}>
+					Clear Game
+				</BetControl>
 			</Left>
-			<BetControl bgColor="greenDark" color="white">
+			<BetControl bgColor="greenDark" color="white" onClick={add}>
 				<StyledCartIcon />
 				Add to cart
 			</BetControl>

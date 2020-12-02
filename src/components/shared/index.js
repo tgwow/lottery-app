@@ -39,10 +39,8 @@ export const showMessageError = (errorMessage) => {
 };
 
 export const setColor = css`
-	${({ bgColor }) =>
-		bgColor &&
-		`
-		background-color: ${COLOR_MAP[bgColor]};`}
+	${({ bgColor }) => bgColor && `background-color: ${COLOR_MAP[bgColor]};`}
+
 	${({ color }) =>
 		`color: ${COLOR_MAP[color] ? COLOR_MAP[color] : 'var(--color-grayLight)'}
 	`}

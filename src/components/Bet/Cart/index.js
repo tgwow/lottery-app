@@ -1,10 +1,10 @@
 import React from 'react';
 
 import styled from 'styled-components';
-import Games from '../../Games';
 import Headings from '../../UI/Headings';
 import { StyledLink } from '../../UI/StyledLink';
 import { StyledArrowRight } from '../../shared';
+import Game from '../../Game';
 
 const Wrapper = styled.aside`
 	border-radius: 15px;
@@ -16,6 +16,10 @@ const Wrapper = styled.aside`
 const CartBody = styled.div`
 	padding: 3rem 2rem;
 	border-bottom: 1px solid var(--color-borderLight);
+`;
+
+const Games = styled.main`
+	margin-top: 3rem;
 `;
 
 const CartFooter = styled.div`
@@ -38,26 +42,45 @@ export const CartPrice = styled.p`
 	}
 `;
 
-const Cart = () => {
+// eslint-disable-next-line react/display-name
+const Cart = React.memo(({ games, price, remove, save }) => {
+	console.log(games);
+	let content = (
+		<Headings type="p" size="2.0">
+			Make a bet and start compete for great prizes.
+		</Headings>
+	);
+
+	if (games.length > 0)
+		content = games.map((game, i) => (
+			<Game
+				onClick={() => remove(game.id)}
+				key={game.numbers + i}
+				numbers={game.numbers}
+				date={game.date}
+				type={game.type}
+				price={game.price}
+			/>
+		));
 	return (
 		<Wrapper>
 			<CartBody>
 				<Headings type="h2" color="gray" size="2.6" weight="600" uppercase>
 					Cart
 				</Headings>
-				<Games />
+				<Games>{content}</Games>
 				<CartPrice>
 					<strong>Cart&nbsp;&nbsp;</strong>
-					Total: R$7,00
+					Total: ${price}
 				</CartPrice>
 			</CartBody>
 			<CartFooter>
-				<StyledLink size="3.3" weight="600" color="greenDark" noMargin>
+				<StyledLink size="3.3" weight="600" color="greenDark" noMargin onClick={save}>
 					Save
 					<StyledArrowRight />
 				</StyledLink>
 			</CartFooter>
 		</Wrapper>
 	);
-};
+});
 export default Cart;

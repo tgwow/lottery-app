@@ -8,7 +8,6 @@ export function* fetchTypesSaga() {
 
 	try {
 		const response = yield axios.get('/types');
-		console.log(response);
 		yield put(actions.fetchTypesSuccess(response.data));
 	} catch (e) {
 		console.log(e);

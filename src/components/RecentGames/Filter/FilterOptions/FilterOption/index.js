@@ -9,11 +9,11 @@ const FiOption = styled.li`
 	}
 `;
 
-const FilterOption = ({ type, label, ...props }) => {
+const FilterOption = ({ label, ...props }) => {
 	return (
 		<>
 			<FiOption>
-				<GameButton {...props} color={COLOR_MAP[type]}>
+				<GameButton {...props} color={COLOR_MAP[label]}>
 					{label}
 				</GameButton>
 			</FiOption>
