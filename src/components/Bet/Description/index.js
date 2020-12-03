@@ -1,7 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const Filter = styled.nav`
+	display: flex;
+	align-items: center;
+`;
 
 import Headings from '../../../components/UI/Headings';
-import FilterOptions from '../../RecentGames/Filter';
+import FilterOptions from '../../FilterOptions';
 
 const Description = ({ type, desc }) => {
 	return (
@@ -13,8 +19,10 @@ const Description = ({ type, desc }) => {
 			<Headings type="p" margin="0 0 1.5rem 0" size="1.8" weight="600" color="grayLight">
 				Choose a game
 			</Headings>
-			<FilterOptions noMargin />
-			<Headings type="h3" size="1.6" margin="2rem 0 0 0" weight="600" color="grayLight">
+			<Filter>
+				<FilterOptions behavior="single" noMargin />
+			</Filter>
+			<Headings type="h3" size="1.6" margin="2.5rem 0 0 0" weight="600" color="grayLight">
 				Fill your bet
 			</Headings>
 			<Headings type="p" size="1.6" color="grayLight">

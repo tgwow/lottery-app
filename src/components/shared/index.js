@@ -8,12 +8,12 @@ export const StyledArrowRight = styled(VscArrowRight)`
 
 export const Container = styled.div`
 	width: 100%;
-	max-width: 120rem;
+	max-width: 130rem;
 	margin: 0 auto;
 	height: 100%;
 	flex: 1;
 
-	@media screen and (max-width: 1199px) {
+	@media screen and (max-width: 1300px) {
 		padding: 0 2rem;
 	}
 `;

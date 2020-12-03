@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import axios from 'axios';
 
 export const AuthContext = React.createContext({
-	isAuth: null,
+	isAuth: '',
+	user: {},
 	error: null,
 	isLoading: false,
 	sign: () => {},
@@ -11,14 +12,37 @@ export const AuthContext = React.createContext({
 	setErrorNull: () => {},
 });
 
+const INITIAL_STATE = {
+	token: '',
+	userId: '',
+};
+
+const userReducer = (state, action) => {
+	switch (action.type) {
+		case 'SET':
+			return {
+				token: action.token,
+				userId: action.userId,
+			};
+		case 'CLEAR':
+			return {
+				token: '',
+				userId: '',
+			};
+		default:
+			return state;
+	}
+};
+
 // eslint-disable-next-line react/display-name
 const AuthProvider = React.memo(({ children }) => {
-	const [user, setUser] = useState(null);
+	const [user, dispatch] = useReducer(userReducer, INITIAL_STATE);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
+		const userId = localStorage.getItem('userId');
 		if (!token) handleSignOut();
 		else {
 			const expirationTime = localStorage.getItem('expiresIn');
@@ -28,7 +52,7 @@ const AuthProvider = React.memo(({ children }) => {
 			if (expirationTimeInSeconds < currentTimeInSeconds) handleSignOut();
 			else {
 				checkoutTime((expirationTimeInSeconds - currentTimeInSeconds) / 1000);
-				setUser({ token });
+				dispatch({ type: 'SET', token, userId });
 			}
 		}
 	}, []);
@@ -67,7 +91,7 @@ const AuthProvider = React.memo(({ children }) => {
 	};
 
 	const handleSignOut = () => {
-		setUser(null);
+		dispatch({ type: 'CLEAR' });
 		localStorage.clear();
 	};
 
@@ -85,7 +109,7 @@ const AuthProvider = React.memo(({ children }) => {
 				url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAPjPyA-V4oXnuPb3zUpVkIudHeMg3oNBQ';
 			}
 			const {
-				data: { idToken, expiresIn },
+				data: { idToken, expiresIn, localId },
 			} = await axios.post(url, userData, {
 				headers: {
 					'Content-Type': 'application/json',
@@ -93,10 +117,12 @@ const AuthProvider = React.memo(({ children }) => {
 			});
 			const expirationTime = (new Date().getTime() + expiresIn * 1000).toString();
 			localStorage.setItem('token', idToken);
+			localStorage.setItem('userId', localId);
 			localStorage.setItem('expiresIn', expirationTime);
 
 			checkoutTime(expiresIn);
-			setUser({ token: idToken });
+
+			dispatch({ type: 'SET', token: idToken, userId: localId });
 			setLoading(false);
 		} catch (err) {
 			const errorMessage = err.response.data.error.message;
@@ -108,7 +134,8 @@ const AuthProvider = React.memo(({ children }) => {
 	return (
 		<AuthContext.Provider
 			value={{
-				isAuth: !!user,
+				isAuth: !!user.token,
+				user: user,
 				isLoading: loading,
 				error: error,
 				sign: handleAuth,

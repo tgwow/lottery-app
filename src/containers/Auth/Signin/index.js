@@ -62,7 +62,7 @@ const Signin = () => {
 							</Button>
 						)}
 					</StyledForm>
-					<StyledLink link="/signup" clicked={setErrorNull} color="gray" type="submit" weight={600} size="3.5">
+					<StyledLink link="/signup" onClick={setErrorNull} color="gray" type="submit" weight={600} size="3.5">
 						Sign Up
 						<StyledArrowRight />
 					</StyledLink>

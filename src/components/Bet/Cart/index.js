@@ -1,10 +1,13 @@
 import React from 'react';
-
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+
 import Headings from '../../UI/Headings';
+import Game from '../../Game';
 import { StyledLink } from '../../UI/StyledLink';
 import { StyledArrowRight } from '../../shared';
-import Game from '../../Game';
+
+import { formatMoney } from '../../../utils/formatNumber';
 
 const Wrapper = styled.aside`
 	border-radius: 15px;
@@ -43,25 +46,26 @@ export const CartPrice = styled.p`
 `;
 
 // eslint-disable-next-line react/display-name
-const Cart = React.memo(({ games, price, remove, save }) => {
-	console.log(games);
+const Cart = React.memo(({ games, price, remove, save, loading }) => {
 	let content = (
 		<Headings type="p" size="2.0">
 			Make a bet and start compete for great prizes.
 		</Headings>
 	);
-
 	if (games.length > 0)
 		content = games.map((game, i) => (
 			<Game
-				onClick={() => remove(game.id)}
+				clicked={() => remove(game.id)}
 				key={game.numbers + i}
 				numbers={game.numbers}
+				label={game.type}
 				date={game.date}
 				type={game.type}
 				price={game.price}
+				purchasing
 			/>
 		));
+
 	return (
 		<Wrapper>
 			<CartBody>
@@ -71,16 +75,34 @@ const Cart = React.memo(({ games, price, remove, save }) => {
 				<Games>{content}</Games>
 				<CartPrice>
 					<strong>Cart&nbsp;&nbsp;</strong>
-					Total: ${price}
+					Total: {formatMoney(price)}
 				</CartPrice>
 			</CartBody>
 			<CartFooter>
-				<StyledLink size="3.3" weight="600" color="greenDark" noMargin onClick={save}>
-					Save
-					<StyledArrowRight />
+				<StyledLink
+					disabled={loading}
+					as="button"
+					size="3.3"
+					weight="600"
+					color="greenDark"
+					margin="0 auto"
+					onClick={save}
+				>
+					{loading ? (
+						'Loading...'
+					) : (
+						<>
+							Save
+							<StyledArrowRight />
+						</>
+					)}
 				</StyledLink>
 			</CartFooter>
 		</Wrapper>
 	);
 });
-export default Cart;
+
+const mapStateToProps = ({ game }) => ({
+	loading: game.loading,
+});
+export default connect(mapStateToProps)(Cart);

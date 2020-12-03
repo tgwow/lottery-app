@@ -1,8 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
 import { fetchTypesSaga } from '../../store/actions/types';
+import { saveGames } from '../../store/actions/games';
+import { clearType } from '../../store/actions/filter';
 
 import Description from '../../components/Bet/Description';
 import Cart from '../../components/Bet/Cart';
@@ -11,6 +13,8 @@ import Board from '../../components/Bet/Board';
 import Spinner from '../../components/UI/Spinner';
 import Number from '../../components/Bet/Board/Number';
 import { formatCurrentDate } from '../../utils/formatDate';
+import { AuthContext } from '../../contexts/auth.context';
+import { formatMoney } from '../../utils/formatNumber';
 
 const Wrapper = styled.div`
 	margin-top: 7rem;
@@ -43,25 +47,35 @@ const Right = styled.div`
 `;
 
 // eslint-disable-next-line react/display-name
-const Bet = React.memo(({ fetchTypesSaga, types, selectedType }) => {
+const Bet = React.memo(({ types, selectedType, saveGames, clearType }) => {
+	const { user } = useContext(AuthContext);
+
 	const [selectedNumbers, setSelectedNumbers] = useState([]);
 	const [betType, setBetType] = useState(null);
+
+	// TODO: Transform this two state in a reducer
 	const [games, setGames] = useState([]);
 	const [totalPrice, setTotalPrice] = useState(0);
 
 	useEffect(() => {
-		fetchTypesSaga();
-	}, [fetchTypesSaga]);
+		clearType('Lotofácil');
+	}, []);
 
 	useEffect(() => {
 		handleClearGame();
-		let type = types.filter((t) => t.type === selectedType)[0];
+		let type = types.filter((t) => t.type === selectedType[0])[0];
 		setBetType(type);
 	}, [selectedType, types]);
 
-	const handleSaveGame = useCallback(() => {
-		console.log('saving...');
-	}, []);
+	const handleSaveGame = () => {
+		if (totalPrice < betType['min-cart-value']) {
+			alert(`You must spend at least ${formatMoney(betType['min-cart-value'])}`);
+			return;
+		}
+		saveGames(games);
+		setGames([]);
+		setTotalPrice(0);
+	};
 
 	const handleRemoveBet = (id) => {
 		const index = games.findIndex((game) => game.id === id);
@@ -77,16 +91,18 @@ const Bet = React.memo(({ fetchTypesSaga, types, selectedType }) => {
 			return;
 		}
 
-		const game = {
+		const bet = {
 			id: new Date().getSeconds() + Math.random(),
-			numbers: selectedNumbers.sort().toString(),
+			userId: user.userId,
+			numbers: selectedNumbers.sort((a, b) => a - b).toString(),
 			date: formatCurrentDate(),
 			price: betType.price,
 			type: betType.type,
 		};
 
-		setTotalPrice(totalPrice + game.price);
-		setGames(games.concat(game));
+		setTotalPrice(totalPrice + bet.price);
+		setGames(games.concat(bet));
+		handleClearGame();
 	};
 
 	const handleCompleteGame = (range, max) => {
@@ -169,9 +185,11 @@ const Bet = React.memo(({ fetchTypesSaga, types, selectedType }) => {
 	);
 });
 
-const mapStateToProps = ({ type, filter }) => ({
+const mapStateToProps = ({ type, filter, game }) => ({
 	types: type.types,
 	selectedType: filter.selectedType,
+	games: game.games,
+	loading: game.loading,
 });
 
-export default connect(mapStateToProps, { fetchTypesSaga })(Bet);
+export default connect(mapStateToProps, { fetchTypesSaga, saveGames, clearType })(Bet);

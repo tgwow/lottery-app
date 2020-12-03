@@ -12,7 +12,8 @@ const baseStyle = css`
 `;
 
 const Heading = styled.div`
-	${baseStyle}
+	${baseStyle};
+	word-break: break-word;
 `;
 
 const Headings = (props) => {

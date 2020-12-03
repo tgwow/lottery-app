@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
 // styles
 import { ThemeProvider } from 'styled-components';
@@ -10,9 +12,6 @@ import GlobalStyles from './utils/global';
 
 // authContext
 import AuthProvider from './contexts/auth.context';
-
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
 // store
 import store from './store';

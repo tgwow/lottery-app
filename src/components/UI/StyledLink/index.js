@@ -13,8 +13,8 @@ export const StyledLink = styled(Link)`
 	outline: none;
 	border: none;
 	font-weight: ${({ weight }) => (weight ? weight : '400')};
-	font-size: ${({ size }) => (size ? size : '1')}rem;
-	margin-bottom: ${({ noMargin }) => (noMargin ? '0' : '2.5')}rem;
+	font-size: ${({ size }) => (size ? size : '1.6')}rem;
+	margin: ${({ margin }) => (margin ? margin : '0rem')};
 `;
 
 const CustomLink = ({ link, children, ...rest }) => {

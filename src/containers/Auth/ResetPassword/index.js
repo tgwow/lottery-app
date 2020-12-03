@@ -59,7 +59,7 @@ const ResetPassword = () => {
 							</Button>
 						)}
 					</StyledForm>
-					<StyledLink link="/sign" clicked={setErrorNull} color="gray" type="submit" weight={600} size="3.5">
+					<StyledLink link="/sign" onClick={setErrorNull} color="gray" type="submit" weight={600} size="3.5">
 						<VscArrowLeft />
 						Back
 					</StyledLink>

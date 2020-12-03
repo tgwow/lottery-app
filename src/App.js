@@ -15,7 +15,6 @@ const Logout = lazy(() => import('./containers/Auth/Logout'));
 
 const App = () => {
 	const { isAuth } = useContext(AuthContext);
-	console.log('[App] says: isAuth?', isAuth);
 	let content = (
 		<Switch>
 			<Route path="/sign" render={(props) => <Signin {...props} />} />
