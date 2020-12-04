@@ -1,16 +1,16 @@
 import { put } from 'redux-saga/effects';
 import axios from '../../services/api';
 
-import * as actions from '../actions/types';
+import { Creators as typesActions } from '../ducks/types';
 
 export function* fetchTypesSaga() {
-	yield put(actions.fetchTypesStart());
+	yield put(typesActions.fetchTypesStart());
 
 	try {
 		const response = yield axios.get('/types');
-		yield put(actions.fetchTypesSuccess(response.data));
+		yield put(typesActions.fetchTypesSuccess(response.data));
 	} catch (e) {
 		console.log(e);
-		yield put(actions.fetchTypesFail(e));
+		yield put(typesActions.fetchTypesFail(e));
 	}
 }

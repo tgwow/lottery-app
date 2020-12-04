@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Headings from '../../UI/Headings';
 import Game from '../../Game';
@@ -46,7 +46,9 @@ export const CartPrice = styled.p`
 `;
 
 // eslint-disable-next-line react/display-name
-const Cart = React.memo(({ games, price, remove, save, loading }) => {
+const Cart = React.memo(({ games, price, remove, save }) => {
+	const { loading } = useSelector((state) => state.games);
+
 	let content = (
 		<Headings type="p" size="2.0">
 			Make a bet and start compete for great prizes.
@@ -102,7 +104,4 @@ const Cart = React.memo(({ games, price, remove, save, loading }) => {
 	);
 });
 
-const mapStateToProps = ({ game }) => ({
-	loading: game.loading,
-});
-export default connect(mapStateToProps)(Cart);
+export default Cart;

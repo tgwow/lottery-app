@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 
 import Headings from '../../components/UI/Headings';
 import StyledLink from '../../components/UI/StyledLink';
@@ -8,7 +8,6 @@ import { StyledArrowRight } from '../../components/shared';
 import Spinner from '../../components/UI/Spinner';
 import Game from '../../components/Game';
 import FilterOptions from '../../components/FilterOptions';
-import { fetchTypesSaga } from '../../store/actions/types';
 
 const Header = styled.header`
 	margin-top: 7rem;
@@ -34,10 +33,13 @@ const Games = styled.main`
 	margin-top: 3rem;
 `;
 
-const RecentGames = ({ games, selectedType, fetchTypesSaga }) => {
+const RecentGames = ({ games, selectedType }) => {
+	const dispatch = useDispatch();
+	const fetchTypes = useCallback(() => dispatch({ type: 'types/FETCH_TYPES_SAGA' }), [dispatch]);
+
 	useEffect(() => {
-		fetchTypesSaga();
-	}, [fetchTypesSaga]);
+		fetchTypes();
+	}, [fetchTypes]);
 
 	useEffect(() => {}, [games]);
 	let content = <Spinner />;
@@ -99,11 +101,11 @@ const RecentGames = ({ games, selectedType, fetchTypesSaga }) => {
 	);
 };
 
-const mapStateToProps = ({ game, filter }) => ({
-	games: game.games,
-	error: game.error,
-	loading: game.loading,
+const mapStateToProps = ({ games, filter }) => ({
+	games: games.games,
+	error: games.error,
+	loading: games.loading,
 	selectedType: filter.selectedType,
 });
 
-export default connect(mapStateToProps, { fetchTypesSaga })(RecentGames);
+export default connect(mapStateToProps)(RecentGames);

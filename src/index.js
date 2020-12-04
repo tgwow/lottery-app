@@ -16,6 +16,9 @@ import AuthProvider from './contexts/auth.context';
 // store
 import store from './store';
 
+// alertMessage
+import AlertMessage from './components/UI/AlertMessage';
+
 ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
@@ -23,7 +26,9 @@ ReactDOM.render(
 				<AuthProvider>
 					<Router>
 						<GlobalStyles />
-						<App />
+						<AlertMessage>
+							<App />
+						</AlertMessage>
 					</Router>
 				</AuthProvider>
 			</Provider>

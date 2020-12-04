@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import * as filterActions from '../../store/actions/filter';
-import { connect } from 'react-redux';
+import { connect, useSelector, useDispatch } from 'react-redux';
 
 import FiOption from '../FilterOptions/FilterOption';
 
@@ -12,14 +11,22 @@ const FiOptions = styled.ul`
 	margin-left: ${({ noMargin }) => (noMargin ? '' : '2rem')};
 `;
 
-const FilterOptions = ({ noMargin, types, selectedType, behavior, removeType, addType, clearType }) => {
+const FilterOptions = ({ noMargin, behavior }) => {
+	const dispatch = useDispatch();
+	const { selectedType } = useSelector((state) => state.filter);
+	const { types } = useSelector((state) => state.types);
+
 	let options;
+	console.log(selectedType);
+	console.log(types);
 
 	const handleSetType = (optionType) => {
 		if (behavior === 'all') {
-			selectedType.includes(optionType) ? removeType(optionType) : addType(optionType);
+			selectedType.includes(optionType)
+				? dispatch({ type: 'filter/REMOVE_TYPE', optionType })
+				: dispatch({ type: 'filter/ADD_TYPE', optionType });
 		} else if (behavior === 'single') {
-			clearType(optionType);
+			dispatch({ type: 'filter/CLEAR_TYPE', optionType });
 		}
 	};
 
@@ -37,9 +44,9 @@ const FilterOptions = ({ noMargin, types, selectedType, behavior, removeType, ad
 	return <FiOptions noMargin={noMargin}>{options}</FiOptions>;
 };
 
-const mapStateToProps = ({ type, filter }) => ({
-	types: type.types,
+const mapStateToProps = ({ types, filter }) => ({
+	types: types.types,
 	selectedType: filter.selectedType,
 });
 
-export default connect(mapStateToProps, { ...filterActions })(FilterOptions);
+export default connect(mapStateToProps)(FilterOptions);
