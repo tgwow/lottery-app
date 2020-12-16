@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useSelector } from 'react-redux';
 
 import Headings from '../../UI/Headings';
 import Game from '../../Game';
@@ -46,23 +45,20 @@ export const CartPrice = styled.p`
 `;
 
 // eslint-disable-next-line react/display-name
-const Cart = React.memo(({ games, price, remove, save }) => {
-	const { loading } = useSelector((state) => state.games);
-
+const Cart = React.memo(({ games, price, remove, save, status }) => {
 	let content = (
 		<Headings type="p" size="2.0">
 			Make a bet and start compete for great prizes.
 		</Headings>
 	);
 	if (games.length > 0)
-		content = games.map((game, i) => (
+		content = games.map((game) => (
 			<Game
 				clicked={() => remove(game.id)}
-				key={game.numbers + i}
+				key={game.id}
 				numbers={game.numbers}
-				label={game.type}
+				type={game.name}
 				date={game.date}
-				type={game.type}
 				price={game.price}
 				purchasing
 			/>
@@ -82,7 +78,7 @@ const Cart = React.memo(({ games, price, remove, save }) => {
 			</CartBody>
 			<CartFooter>
 				<StyledLink
-					disabled={loading}
+					disabled={status.loading}
 					as="button"
 					size="3.3"
 					weight="600"
@@ -90,7 +86,7 @@ const Cart = React.memo(({ games, price, remove, save }) => {
 					margin="0 auto"
 					onClick={save}
 				>
-					{loading ? (
+					{status.loading ? (
 						'Loading...'
 					) : (
 						<>

@@ -72,7 +72,7 @@ export default createGlobalStyle`
     text-decoration: none;
     font-family: inherit;
     font-style: inherit;
-  },
+  }
   ul {
     list-style: none;
   }

@@ -11,7 +11,7 @@ import Button from '../../../components/UI/Form/Button';
 import StyledLink from '../../../components/UI/StyledLink';
 
 import { FormWrapper, StyledForm } from '../../../components/UI/Form/elements';
-import { MessageError, showMessageError } from '../../../components/shared';
+import { MessageError } from '../../../components/shared';
 import { AuthContext } from '../../../contexts/auth.context';
 import Spinner from '../../../components/UI/Spinner';
 
@@ -37,8 +37,7 @@ const Signup = React.memo(() => {
 			}}
 			validationSchema={SignupSchema}
 			onSubmit={async (values) => {
-				const { email, password } = values;
-				await sign(email, password, true);
+				await sign(values, true);
 			}}
 		>
 			{({ isSubmitting, isValid }) => (
@@ -50,7 +49,7 @@ const Signup = React.memo(() => {
 						<Field autocomplete="off" name="name" type="text" placeholder="Name" component={Input} />
 						<Field name="email" type="email" placeholder="Email" component={Input} />
 						<Field name="password" type="password" placeholder="Password" component={Input} />
-						{error && <MessageError show={error}>{showMessageError(error)}</MessageError>}
+						{error && <MessageError show={error}>{error}</MessageError>}
 						{isLoading ? (
 							<Spinner />
 						) : (

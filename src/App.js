@@ -5,9 +5,12 @@ import Layout from './hoc/Layout/Layout';
 import ResetPassword from './containers/Auth/ResetPassword';
 import Spinner from './components/UI/Spinner';
 import { AuthContext } from './contexts/auth.context';
+import ResetPasswordSuccess from './containers/Auth/ResetPasswordSuccess';
+import NewPasswordSuccess from './containers/Auth/NewPasswordSuccess';
 
 const Signin = lazy(() => import('./containers/Auth/Signin'));
 const Signup = lazy(() => import('./containers/Auth/Signup'));
+const NewPassword = lazy(() => import('./containers/Auth/NewPassword'));
 
 const RecentGames = lazy(() => import('./containers/RecentGames'));
 const Bet = lazy(() => import('./containers/Bet'));
@@ -20,6 +23,9 @@ const App = () => {
 			<Route path="/sign" render={(props) => <Signin {...props} />} />
 			<Route path="/signup" render={(props) => <Signup {...props} />} />
 			<Route path="/reset-password" render={(props) => <ResetPassword {...props} />} />
+			<Route path="/reset-password-success" render={(props) => <ResetPasswordSuccess {...props} />} />
+			<Route path="/new-password" render={(props) => <NewPassword {...props} />} />
+			<Route path="/new-password-success" render={(props) => <NewPasswordSuccess {...props} />} />
 			<Redirect to="/sign" />
 		</Switch>
 	);

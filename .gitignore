@@ -27,3 +27,5 @@ yarn-error.log*
 .prettierrc
 .idea
 db.json
+
+.firebase/*

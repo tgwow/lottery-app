@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useReducer } from 'react';
-import axios from 'axios';
+import { useHistory } from 'react-router-dom';
+import api from '../services/api';
 
 export const AuthContext = React.createContext({
 	isAuth: '',
@@ -22,7 +23,6 @@ const userReducer = (state, action) => {
 		case 'SET':
 			return {
 				token: action.token,
-				userId: action.userId,
 			};
 		case 'CLEAR':
 			return {
@@ -39,53 +39,56 @@ const AuthProvider = React.memo(({ children }) => {
 	const [user, dispatch] = useReducer(userReducer, INITIAL_STATE);
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const history = useHistory();
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
-		const userId = localStorage.getItem('userId');
 		if (!token) handleSignOut();
 		else {
-			const expirationTime = localStorage.getItem('expiresIn');
-			const expirationTimeInSeconds = new Date(+expirationTime).getTime();
-			const currentTimeInSeconds = new Date().getTime();
-
-			if (expirationTimeInSeconds < currentTimeInSeconds) handleSignOut();
-			else {
-				checkoutTime((expirationTimeInSeconds - currentTimeInSeconds) / 1000);
-				dispatch({ type: 'SET', token, userId });
-			}
+			api.defaults.headers['Authorization'] = `Bearer ${token}`;
+			dispatch({ type: 'SET', token });
 		}
 	}, []);
 
-	const checkoutTime = (expirenIn) => {
+	const checkoutTime = (expiresIn) => {
 		setTimeout(() => {
 			handleSignOut();
-		}, expirenIn * 1000);
+		}, expiresIn * 1000);
 	};
 
 	const setErrorNull = () => {
 		setError(null);
 	};
 
-	const handleResetPassword = async (email) => {
+	const handleResetPassword = async ({ email }) => {
 		setLoading(true);
-		const locale = navigator.languages[0] || navigator.language;
-		const resetData = {
-			email,
-			requestType: 'PASSWORD_RESET',
-		};
-		const url =
-			'https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyAPjPyA-V4oXnuPb3zUpVkIudHeMg3oNBQ';
+		const url = `/forgot_password`;
 		try {
-			await axios.post(url, resetData, {
-				headers: {
-					'X-Firebase-Locale': locale,
-				},
+			await api.post(url, { email, redirect_url: 'http://localhost:3000/new-password' });
+			setLoading(false);
+			history.push('/reset-password-success');
+		} catch ({ response: { data } }) {
+			setLoading(false);
+			let errorMessage = Array.isArray(data) ? data[0].message : data.error.message;
+			setError(errorMessage);
+		}
+	};
+
+	const handleNewPassword = async ({ password, password_confirmation }) => {
+		setLoading(true);
+		const token = new URLSearchParams(document.location.search.substring(1)).get('token');
+
+		try {
+			await api.put(`/forgot_password?token=${token}`, {
+				password,
+				password_confirmation,
+				token,
 			});
 			setLoading(false);
-		} catch (err) {
-			const error = err.response.data.error.message;
-			setError(error);
+			history.push('/new-password-success');
+		} catch ({ response: { data } }) {
+			let errorMessage = Array.isArray(data) ? data[0].message : data.error.message;
+			setError(errorMessage);
 			setLoading(false);
 		}
 	};
@@ -95,37 +98,33 @@ const AuthProvider = React.memo(({ children }) => {
 		localStorage.clear();
 	};
 
-	const handleAuth = async (email, password, isSignup = false) => {
+	const handleAuth = async ({ email, password, name }, isSignup = false) => {
 		setLoading(true);
+		const userData = {
+			email,
+			password,
+		};
+		let url = `/sessions`;
+		if (isSignup) {
+			userData.name = name;
+			url = `/users`;
+		}
 		try {
-			const userData = {
-				email,
-				password,
-				returnSecureToken: true,
-			};
-			let url =
-				'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAPjPyA-V4oXnuPb3zUpVkIudHeMg3oNBQ';
-			if (isSignup) {
-				url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAPjPyA-V4oXnuPb3zUpVkIudHeMg3oNBQ';
-			}
 			const {
-				data: { idToken, expiresIn, localId },
-			} = await axios.post(url, userData, {
+				data: { token },
+			} = await api.post(url, userData, {
 				headers: {
 					'Content-Type': 'application/json',
 				},
 			});
-			const expirationTime = (new Date().getTime() + expiresIn * 1000).toString();
-			localStorage.setItem('token', idToken);
-			localStorage.setItem('userId', localId);
-			localStorage.setItem('expiresIn', expirationTime);
-
-			checkoutTime(expiresIn);
-
-			dispatch({ type: 'SET', token: idToken, userId: localId });
+			localStorage.setItem('token', token);
+			api.defaults.headers['Authorization'] = `Bearer ${token}`;
+			dispatch({ type: 'SET', token });
 			setLoading(false);
-		} catch (err) {
-			const errorMessage = err.response.data.error.message;
+
+			checkoutTime(21600);
+		} catch ({ response: { data } }) {
+			let errorMessage = Array.isArray(data) ? data[0].message : data.error.message;
 			setError(errorMessage);
 			setLoading(false);
 		}
@@ -141,6 +140,7 @@ const AuthProvider = React.memo(({ children }) => {
 				sign: handleAuth,
 				signOut: handleSignOut,
 				resetPassword: handleResetPassword,
+				handleNewPassword,
 				setErrorNull: setErrorNull,
 			}}
 		>
@@ -150,3 +150,16 @@ const AuthProvider = React.memo(({ children }) => {
 });
 
 export default AuthProvider;
+
+// const expirationTime = localStorage.getItem('expiresIn');
+// const expirationTimeInSeconds = new Date(+expirationTime).getTime();
+// const currentTimeInSeconds = new Date().getTime();
+//
+// if (expirationTimeInSeconds < currentTimeInSeconds) handleSignOut();
+// else {
+// 	checkoutTime((expirationTimeInSeconds - currentTimeInSeconds) / 1000);
+
+// const expirationTime = (new Date().getTime() + expiresIn * 1000).toString();
+// localStorage.setItem('userId', localId);
+// localStorage.setItem('expiresIn', expirationTime);
+//

@@ -27,7 +27,6 @@ export default function reducer(state = INITIAL_STATE, action) {
 		case Types.REMOVE_TYPE:
 			return removeType(state, action);
 		case Types.CLEAR_TYPE:
-			console.log('clearing..');
 			return clearType(state, action);
 		default:
 			return state;

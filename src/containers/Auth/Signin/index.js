@@ -13,7 +13,7 @@ import Spinner from '../../../components/UI/Spinner';
 import { StyledArrowRight } from '../../../components/shared';
 import { FormWrapper, StyledForm } from '../../../components/UI/Form/elements';
 import { AuthContext } from '../../../contexts/auth.context';
-import { MessageError, showMessageError } from '../../../components/shared';
+import { MessageError } from '../../../components/shared';
 
 const SigninSchema = Yup.object({
 	email: Yup.string().email('Invalid email address.').required('This field is required.'),
@@ -21,7 +21,7 @@ const SigninSchema = Yup.object({
 });
 
 const Signin = () => {
-	const { sign, error, resetPasswordStart, setErrorNull, isLoading } = useContext(AuthContext);
+	const { sign, error, isLoading, setErrorNull } = useContext(AuthContext);
 	return (
 		<Formik
 			initialValues={{
@@ -30,8 +30,7 @@ const Signin = () => {
 			}}
 			validationSchema={SigninSchema}
 			onSubmit={async (values) => {
-				const { email, password } = values;
-				await sign(email, password);
+				await sign(values);
 			}}
 		>
 			{({ isSubmitting, isValid }) => (
@@ -42,10 +41,10 @@ const Signin = () => {
 					<StyledForm>
 						<Field name="email" type="email" placeholder="Email" component={Input} />
 						<Field name="password" type="password" placeholder="Password" component={Input} />
-						<CustomLink link="reset-password" clicked={resetPasswordStart}>
+						<CustomLink link="reset-password" clicked={setErrorNull}>
 							I forget my password
 						</CustomLink>
-						{error && <MessageError show={error}>{showMessageError(error)}</MessageError>}
+						{error && <MessageError show={!!error}>{error}</MessageError>}
 						{isLoading ? (
 							<Spinner />
 						) : (

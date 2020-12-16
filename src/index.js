@@ -23,14 +23,14 @@ ReactDOM.render(
 	<React.StrictMode>
 		<ThemeProvider theme={theme}>
 			<Provider store={store}>
-				<AuthProvider>
-					<Router>
+				<Router>
+					<AuthProvider>
 						<GlobalStyles />
 						<AlertMessage>
 							<App />
 						</AlertMessage>
-					</Router>
-				</AuthProvider>
+					</AuthProvider>
+				</Router>
 			</Provider>
 		</ThemeProvider>
 	</React.StrictMode>,

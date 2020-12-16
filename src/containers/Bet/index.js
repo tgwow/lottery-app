@@ -1,11 +1,8 @@
-import React, { useEffect, useState, useContext, useReducer } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
 
-import { AuthContext } from '../../contexts/auth.context';
-
-import { formatCurrentDate } from '../../utils/formatDate';
 import { formatMoney } from '../../utils/formatNumber';
 
 import Description from '../../components/Bet/Description';
@@ -14,6 +11,7 @@ import BetControls from '../../components/Bet/BetControls';
 import Board from '../../components/Bet/Board';
 import Spinner from '../../components/UI/Spinner';
 import Number from '../../components/Bet/Board/Number';
+import api from '../../services/api';
 
 const Wrapper = styled.div`
 	margin-top: 7rem;
@@ -50,6 +48,11 @@ const INITIAL_STATE = {
 	totalPrice: 0,
 };
 
+const STATUS_INITIAL_STATE = {
+	error: null,
+	loading: false,
+};
+
 const cartReducer = (state, action) => {
 	switch (action.type) {
 		case 'cart/SET':
@@ -67,19 +70,39 @@ const cartReducer = (state, action) => {
 	}
 };
 
+const statusReducer = (state, action) => {
+	switch (action.type) {
+		case 'status/START':
+			return {
+				error: null,
+				loading: true,
+			};
+		case 'status/SUCCESS':
+			return {
+				error: null,
+				loading: false,
+			};
+		case 'status/FAIL':
+			return {
+				error: action.error,
+				loading: false,
+			};
+		default:
+			return state;
+	}
+};
+
 // eslint-disable-next-line react/display-name
 const Bet = React.memo(() => {
 	const dispatch = useDispatch();
 	const { selectedType } = useSelector((state) => state.filter);
-	const { types } = useSelector((state) => state.types);
-
-	const { user } = useContext(AuthContext);
+	const { types } = useSelector((state) => state.type);
 
 	const [selectedNumbers, setSelectedNumbers] = useState([]);
 	const [betType, setBetType] = useState(null);
 
-	// DONE: Transform this two state in a reducer
 	const [cart, cartDispatch] = useReducer(cartReducer, INITIAL_STATE);
+	const [status, statusDispatch] = useReducer(statusReducer, STATUS_INITIAL_STATE);
 
 	const alert = useAlert();
 
@@ -89,16 +112,33 @@ const Bet = React.memo(() => {
 
 	useEffect(() => {
 		handleClearGame();
-		let type = types.filter((t) => t.type === selectedType[0])[0];
+		let type = types.filter((t) => t.name === selectedType[0])[0];
 		setBetType(type);
 	}, [selectedType, types]);
 
-	const handleSaveGame = () => {
+	const handleSaveGame = async () => {
+		statusDispatch({ type: 'status/START' });
+		// betType.min_cart_value
 		if (cart.totalPrice < 5) {
-			alert.show(`You must spend at least ${formatMoney(betType['min-cart-value'])}`);
+			alert.show(`You must spend at least ${formatMoney(betType.min_cart_value)}`);
 			return;
 		}
-		dispatch({ type: 'games/SAVE_GAMES_SAGA', games: cart.games });
+		const result = {
+			bets: cart.games.map((bet) => {
+				return {
+					numbers: bet.numbers,
+					type_id: bet.type_id,
+				};
+			}),
+		};
+
+		try {
+			await api.post(process.env.REACT_APP_API_URL + '/bets', result);
+			statusDispatch({ type: 'status/SUCCESS' });
+		} catch (err) {
+			console.log(err.response.data);
+			statusDispatch({ type: 'status/FAIL', error: err.response.data });
+		}
 		cartDispatch({ type: 'cart/CLEAR' });
 	};
 
@@ -110,18 +150,17 @@ const Bet = React.memo(() => {
 	};
 
 	const handleAddBet = () => {
-		if (selectedNumbers.length < betType['max-number']) {
-			alert.show(`Please, select more ${betType['max-number'] - selectedNumbers.length} numbers`);
+		if (selectedNumbers.length < betType.max_number) {
+			alert.show(`Please, select more ${betType.max_number - selectedNumbers.length} numbers`);
 			return;
 		}
 
 		const bet = {
-			id: new Date().getSeconds() + Math.random(),
-			userId: user.userId,
 			numbers: selectedNumbers.sort((a, b) => a - b).toString(),
-			date: formatCurrentDate(),
+			type_id: betType.id,
+			id: Date.now() + betType.id,
 			price: betType.price,
-			type: betType.type,
+			name: betType.name,
 		};
 		cartDispatch({ type: 'cart/SET', games: cart.games.concat(bet), totalPrice: cart.totalPrice + bet.price });
 		handleClearGame();
@@ -170,20 +209,21 @@ const Bet = React.memo(() => {
 	};
 
 	let content = <Spinner />;
+
 	if (betType) {
 		let numbers = [...Array(betType.range)].map((_, index) => (
 			<Number
 				active={selectedNumbers.includes(index + 1)}
 				key={index + 1}
 				bgHover={betType.color}
-				onClick={(e) => handleClickedNumber(e, betType['max-number'])}
+				onClick={(e) => handleClickedNumber(e, betType.max_number)}
 			>
 				{index + 1}
 			</Number>
 		));
 		content = (
 			<>
-				<Description type={betType.type} desc={betType.description} />
+				<Description type={betType.name} desc={betType.description} />
 				<Board>{numbers}</Board>
 			</>
 		);
@@ -195,12 +235,18 @@ const Bet = React.memo(() => {
 					{content}
 					<BetControls
 						clear={handleClearGame}
-						complete={() => handleCompleteGame(betType.range, betType['max-number'])}
+						complete={() => handleCompleteGame(betType.range, betType.max_number)}
 						add={handleAddBet}
 					/>
 				</Left>
 				<Right>
-					<Cart games={cart.games} price={cart.totalPrice} remove={handleRemoveBet} save={handleSaveGame} />
+					<Cart
+						status={status}
+						games={cart.games}
+						price={cart.totalPrice}
+						remove={handleRemoveBet}
+						save={handleSaveGame}
+					/>
 				</Right>
 			</Wrapper>
 		</>

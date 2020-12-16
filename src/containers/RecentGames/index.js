@@ -1,6 +1,8 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { connect, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+import api from '../../services/api';
 
 import Headings from '../../components/UI/Headings';
 import StyledLink from '../../components/UI/StyledLink';
@@ -33,43 +35,56 @@ const Games = styled.main`
 	margin-top: 3rem;
 `;
 
-const RecentGames = ({ games, selectedType }) => {
+const RecentGames = () => {
 	const dispatch = useDispatch();
 	const fetchTypes = useCallback(() => dispatch({ type: 'types/FETCH_TYPES_SAGA' }), [dispatch]);
+	const selectedType = useSelector((state) => state.filter.selectedType);
+	const [bets, setBets] = useState([]);
 
 	useEffect(() => {
 		fetchTypes();
 	}, [fetchTypes]);
 
-	useEffect(() => {}, [games]);
-	let content = <Spinner />;
+	useEffect(() => {
+		async function fetchBets() {
+			try {
+				const { data } = await api.get(process.env.REACT_APP_API_URL + '/bets');
+				setBets(data);
+			} catch (err) {
+				// console.error(err.toJSON());
+				console.log(err.response.data);
+			}
+		}
+		fetchBets();
+	}, []);
 
-	if (games.length > 0) {
-		content = games.map((game) => {
-			return Object.keys(game)
-				.map((bets) => {
-					return game[bets];
-				})
-				.reduce((acc, curr) => {
-					return acc.concat(curr);
-				}, [])
-				.filter((item) => {
-					return selectedType.includes(item.type);
-				})
-				.map((bet) => {
-					return (
-						<Game
-							key={bet.id}
-							numbers={bet.numbers}
-							date={bet.date}
-							type={bet.type}
-							label={bet.type}
-							price={bet.price}
-						/>
-					);
-				});
-		});
-	} else if (games.length === 0) {
+	// useEffect(() => {}, [games]);
+	let content = <Spinner />;
+	if (bets.length > 0) {
+		// return Object.keys(game)
+		// 	.map((bets) => {
+		// 		return game[bets];
+		// 	})
+		// 	.reduce((acc, curr) => {
+		// 		return acc.concat(curr);
+		// 	}, [])
+		// .filter((item) => {
+		// 		return selectedType.includes(item.type);
+		// 	})
+		// 		.map((bet) => {
+		// 			return (
+		//
+		// 			);
+		// 		});
+		content = bets
+			.filter((bet) => {
+				return selectedType.includes(bet.name);
+			})
+			.map((bet) => {
+				return <Game key={bet.id} numbers={bet.numbers} date={bet.date} type={bet.name} price={bet.price} />;
+			})
+			.reverse();
+	} else if (bets.length === 0) {
 		content = (
 			<Headings type="h2" size="1.8" weight="400">
 				There are no games yet.
@@ -101,11 +116,4 @@ const RecentGames = ({ games, selectedType }) => {
 	);
 };
 
-const mapStateToProps = ({ games, filter }) => ({
-	games: games.games,
-	error: games.error,
-	loading: games.loading,
-	selectedType: filter.selectedType,
-});
-
-export default connect(mapStateToProps)(RecentGames);
+export default RecentGames;

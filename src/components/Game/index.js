@@ -42,7 +42,7 @@ const StyledTrash = styled(VscTrash)`
 	left: -35px;
 	transform: translateY(-50%);
 `;
-const Game = ({ numbers, date, price, label, type, onClick, purchasing, clicked }) => {
+const Game = ({ numbers, date, price, type, onClick, purchasing, clicked }) => {
 	const info = !purchasing && (
 		<Headings size="1.6" margin="0 0 5px 0" noItalic>
 			{date} - ({formatMoney(price)})
@@ -56,7 +56,7 @@ const Game = ({ numbers, date, price, label, type, onClick, purchasing, clicked 
 				</Headings>
 				{info}
 				<Headings color={type} type="p" size="1.8" weight="600">
-					{label} <StyledMoney> {purchasing && formatMoney(price)} </StyledMoney>
+					{type} <StyledMoney> {purchasing && formatMoney(price)} </StyledMoney>
 				</Headings>
 				{purchasing && <StyledTrash onClick={() => clicked()} />}
 			</Wrapper>

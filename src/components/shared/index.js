@@ -28,8 +28,8 @@ export const MessageError = styled.span`
 
 export const showMessageError = (errorMessage) => {
 	const errors = {
-		EMAIL_EXISTS: 'This mail already is in use',
-		TOO_MANY_ATTEMPTS_TRY_LATER: 'To many attempts, try later',
+		EMAIL_EXISTS: 'This mail is already in use.',
+		TOO_MANY_ATTEMPTS_TRY_LATER: 'To many attempts, try later.',
 		EMAIL_NOT_FOUND: 'We not found this email in your database',
 		INVALID_PASSWORD: 'Invalid password',
 		INVALID_EMAIL: 'Invalid email',
