@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.0",
+    "date-fns": "^2.16.1",
     "ducks-reducer": "^1.0.4",
     "formik": "^2.2.5",
     "react": "^17.0.1",

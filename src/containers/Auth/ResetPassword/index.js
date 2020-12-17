@@ -24,7 +24,7 @@ const ResetSchema = Yup.object({
 });
 
 const ResetPassword = () => {
-	const { resetPassword, error, setErrorNull, isLoading } = useContext(AuthContext);
+	const { handleResetPassword, error, setErrorNull, isLoading } = useContext(AuthContext);
 	return (
 		<Formik
 			initialValues={{
@@ -32,7 +32,7 @@ const ResetPassword = () => {
 			}}
 			validationSchema={ResetSchema}
 			onSubmit={async (values) => {
-				await resetPassword(values);
+				await handleResetPassword(values);
 			}}
 		>
 			{({ isSubmitting, isValid }) => (

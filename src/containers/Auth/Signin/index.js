@@ -21,7 +21,7 @@ const SigninSchema = Yup.object({
 });
 
 const Signin = () => {
-	const { sign, error, isLoading, setErrorNull } = useContext(AuthContext);
+	const { handleAuth, error, isLoading, setErrorNull } = useContext(AuthContext);
 	return (
 		<Formik
 			initialValues={{
@@ -30,7 +30,7 @@ const Signin = () => {
 			}}
 			validationSchema={SigninSchema}
 			onSubmit={async (values) => {
-				await sign(values);
+				await handleAuth(values);
 			}}
 		>
 			{({ isSubmitting, isValid }) => (

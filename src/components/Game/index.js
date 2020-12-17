@@ -1,7 +1,9 @@
 import React from 'react';
-import Headings from '../UI/Headings';
 import styled from 'styled-components';
 import { VscTrash } from 'react-icons/vsc';
+import { format, parseISO } from 'date-fns';
+
+import Headings from '../UI/Headings';
 
 import { setColor } from '../shared';
 import { formatMoney } from '../../utils/formatNumber';
@@ -45,7 +47,7 @@ const StyledTrash = styled(VscTrash)`
 const Game = ({ numbers, date, price, type, onClick, purchasing, clicked }) => {
 	const info = !purchasing && (
 		<Headings size="1.6" margin="0 0 5px 0" noItalic>
-			{date} - ({formatMoney(price)})
+			{format(parseISO(date), 'yyyy/MM/dd')} - ({formatMoney(price)})
 		</Headings>
 	);
 	return (

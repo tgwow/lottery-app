@@ -1,59 +1,46 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../services/api';
 
 export const AuthContext = React.createContext({
 	isAuth: '',
-	user: {},
 	error: null,
 	isLoading: false,
-	sign: () => {},
-	signOut: () => {},
-	resetPassword: () => {},
-	setErrorNull: () => {},
+	handleAuth: () => {},
+	handleSignOut: () => {},
+	handleResetPassword: () => {},
+	handleNewPassword: () => {},
 });
-
-const INITIAL_STATE = {
-	token: '',
-	userId: '',
-};
-
-const userReducer = (state, action) => {
-	switch (action.type) {
-		case 'SET':
-			return {
-				token: action.token,
-			};
-		case 'CLEAR':
-			return {
-				token: '',
-				userId: '',
-			};
-		default:
-			return state;
-	}
-};
 
 // eslint-disable-next-line react/display-name
 const AuthProvider = React.memo(({ children }) => {
-	const [user, dispatch] = useReducer(userReducer, INITIAL_STATE);
+	const [token, setToken] = useState('');
 	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const history = useHistory();
 
 	useEffect(() => {
 		const token = localStorage.getItem('token');
+		const expirationTime = localStorage.getItem('expirationTime');
+
 		if (!token) handleSignOut();
-		else {
+
+		const expirationTimeInMS = new Date(+expirationTime).getTime();
+		const currentTimeInMS = new Date().getTime();
+
+		if (expirationTimeInMS < currentTimeInMS) {
+			handleSignOut();
+		} else {
+			checkoutTime(expirationTimeInMS - currentTimeInMS);
 			api.defaults.headers['Authorization'] = `Bearer ${token}`;
-			dispatch({ type: 'SET', token });
+			setToken(token);
 		}
 	}, []);
 
 	const checkoutTime = (expiresIn) => {
 		setTimeout(() => {
 			handleSignOut();
-		}, expiresIn * 1000);
+		}, expiresIn);
 	};
 
 	const setErrorNull = () => {
@@ -94,7 +81,7 @@ const AuthProvider = React.memo(({ children }) => {
 	};
 
 	const handleSignOut = () => {
-		dispatch({ type: 'CLEAR' });
+		setToken('');
 		localStorage.clear();
 	};
 
@@ -111,18 +98,22 @@ const AuthProvider = React.memo(({ children }) => {
 		}
 		try {
 			const {
-				data: { token },
+				data: { token, expiresIn, userId },
 			} = await api.post(url, userData, {
 				headers: {
 					'Content-Type': 'application/json',
 				},
 			});
+			// soma o tempo atual com o tempoo q leva para expirar o token e retorna uma data de expiração no futuro
+			const expirationTime = String(new Date().getTime() + +expiresIn);
+			localStorage.setItem('expirationTime', expirationTime);
 			localStorage.setItem('token', token);
+			localStorage.setItem('userId', userId);
 			api.defaults.headers['Authorization'] = `Bearer ${token}`;
-			dispatch({ type: 'SET', token });
-			setLoading(false);
 
-			checkoutTime(21600);
+			setToken(token);
+			setLoading(false);
+			checkoutTime(expiresIn);
 		} catch ({ response: { data } }) {
 			let errorMessage = Array.isArray(data) ? data[0].message : data.error.message;
 			setError(errorMessage);
@@ -133,15 +124,14 @@ const AuthProvider = React.memo(({ children }) => {
 	return (
 		<AuthContext.Provider
 			value={{
-				isAuth: !!user.token,
-				user: user,
+				isAuth: !!token,
 				isLoading: loading,
 				error: error,
-				sign: handleAuth,
-				signOut: handleSignOut,
-				resetPassword: handleResetPassword,
+				handleAuth,
+				handleSignOut,
+				handleResetPassword,
 				handleNewPassword,
-				setErrorNull: setErrorNull,
+				setErrorNull,
 			}}
 		>
 			{children}

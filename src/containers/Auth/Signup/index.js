@@ -27,7 +27,7 @@ const SignupSchema = Yup.object({
 
 // eslint-disable-next-line react/display-name
 const Signup = React.memo(() => {
-	const { sign, error, setErrorNull, isLoading } = useContext(AuthContext);
+	const { handleAuth, error, setErrorNull, isLoading } = useContext(AuthContext);
 	return (
 		<Formik
 			initialValues={{
@@ -37,7 +37,7 @@ const Signup = React.memo(() => {
 			}}
 			validationSchema={SignupSchema}
 			onSubmit={async (values) => {
-				await sign(values, true);
+				await handleAuth(values, true);
 			}}
 		>
 			{({ isSubmitting, isValid }) => (

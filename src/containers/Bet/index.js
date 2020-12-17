@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useReducer } from 'react';
 import styled from 'styled-components';
+import format from 'date-fns/format';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
 
@@ -117,17 +119,18 @@ const Bet = React.memo(() => {
 	}, [selectedType, types]);
 
 	const handleSaveGame = async () => {
-		statusDispatch({ type: 'status/START' });
 		// betType.min_cart_value
 		if (cart.totalPrice < 5) {
 			alert.show(`You must spend at least ${formatMoney(betType.min_cart_value)}`);
 			return;
 		}
+		statusDispatch({ type: 'status/START' });
 		const result = {
 			bets: cart.games.map((bet) => {
 				return {
 					numbers: bet.numbers,
 					type_id: bet.type_id,
+					due_date: bet.due_date,
 				};
 			}),
 		};
@@ -135,6 +138,7 @@ const Bet = React.memo(() => {
 		try {
 			await api.post(process.env.REACT_APP_API_URL + '/bets', result);
 			statusDispatch({ type: 'status/SUCCESS' });
+			alert.show('Your bet was successfully placed!');
 		} catch (err) {
 			console.log(err.response.data);
 			statusDispatch({ type: 'status/FAIL', error: err.response.data });
@@ -154,13 +158,13 @@ const Bet = React.memo(() => {
 			alert.show(`Please, select more ${betType.max_number - selectedNumbers.length} numbers`);
 			return;
 		}
-
 		const bet = {
-			numbers: selectedNumbers.sort((a, b) => a - b).toString(),
-			type_id: betType.id,
 			id: Date.now() + betType.id,
-			price: betType.price,
 			name: betType.name,
+			numbers: selectedNumbers.sort((a, b) => a - b).toString(),
+			price: betType.price,
+			due_date: format(new Date(), 'yyyy-MM-dd HH:mm:ss'),
+			type_id: betType.id,
 		};
 		cartDispatch({ type: 'cart/SET', games: cart.games.concat(bet), totalPrice: cart.totalPrice + bet.price });
 		handleClearGame();

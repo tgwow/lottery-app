@@ -3,9 +3,9 @@ import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../../contexts/auth.context';
 
 const Logout = () => {
-	const { signOut } = useContext(AuthContext);
+	const { handleSignOut } = useContext(AuthContext);
 	useEffect(() => {
-		signOut();
+		handleSignOut();
 	}, []);
 	return <Redirect to="/" />;
 };

@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import FiOption from '../FilterOptions/FilterOption';
 import Spinner from '../UI/Spinner';
+import Headings from '../UI/Headings';
 
 const FiOptions = styled.ul`
 	list-style: none;
@@ -39,6 +40,7 @@ const FilterOptions = ({ noMargin, behavior }) => {
 			/>
 		));
 	}
+	if (types.length === 0) options = <Headings size="2.2">Sorry. No filter available :(</Headings>;
 
 	return <FiOptions noMargin={noMargin}>{options}</FiOptions>;
 };

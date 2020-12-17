@@ -47,8 +47,9 @@ const RecentGames = () => {
 
 	useEffect(() => {
 		async function fetchBets() {
+			const userId = localStorage.getItem('userId');
 			try {
-				const { data } = await api.get(process.env.REACT_APP_API_URL + '/bets');
+				const { data } = await api.get(process.env.REACT_APP_API_URL + `/bets/${userId}`);
 				setBets(data);
 			} catch (err) {
 				// console.error(err.toJSON());
@@ -78,10 +79,12 @@ const RecentGames = () => {
 		// 		});
 		content = bets
 			.filter((bet) => {
-				return selectedType.includes(bet.name);
+				return selectedType.includes(bet.type.name);
 			})
 			.map((bet) => {
-				return <Game key={bet.id} numbers={bet.numbers} date={bet.date} type={bet.name} price={bet.price} />;
+				return (
+					<Game key={bet.id} numbers={bet.numbers} date={bet.due_date} type={bet.type.name} price={bet.type.price} />
+				);
 			})
 			.reverse();
 	} else if (bets.length === 0) {
