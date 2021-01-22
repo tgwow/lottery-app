@@ -1,5 +1,6 @@
-# Lottery APP - The Greatest Lottery App
-
+<p align="center">
+	<h1>Lottery APP - The Greatest Lottery App</h1>
+</p>
 <p align="center">
 	<img alt="License" src="https://img.shields.io/badge/license-MIT-brightgreen">
 </p>
@@ -9,16 +10,16 @@
 </h4>
 
 <p align="center">
- <a href="#-sobre-o-projeto">Sobre</a> •
+ <a href="#-sobre">Sobre</a> •
  <a href="#-funcionalidades">Funcionalidades</a> •
- <a href="#-como-executar-o-projeto">Como executar</a> •
+ <a href="#-instalação">Instalação</a> •
  <a href="#-tecnologias">Tecnologias</a> •
  <a href="#-autor">Autor</a> •
- <a href="#user-content--licença">Licença</a>
+ <a href="#-licença">Licença</a>
 </p>
 
 
-## 💻 Sobre o projeto
+## 💻 Sobre
 
 Esta é a versão web do projeto The Greatest Lottery App, a ideia é simular um ambiente de apostas. Nota: Esta aplicação foi feita apenas para realização de estudos.
 
@@ -39,7 +40,7 @@ Foi utilizado o framework [ReactJS](https://reactjs.org/), visto que este tem um
 
 ---
 
-## 🚀 Como executar o projeto
+## 🚀 Instalação
 
 💡Execute primeiro o **[Backend](https://github.com/tgwow/lottery-api)** e depois execute este projeto.
 
@@ -48,7 +49,7 @@ Foi utilizado o framework [ReactJS](https://reactjs.org/), visto que este tem um
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/) or [nvm](https://nodejs.org/en/download/package-manager/#nvm) this is a package manager to install/remove/switch differents versions of Node.js.
 
-#### 🎲 Rodando o Frontend (web)
+#### 🎲 Rodando (web)
 
 ```bash
 # Clone esse repositorio
@@ -77,7 +78,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ---
 
-## 💪 Como contribuir para o projeto
+## 💪 Contribuindo
 
 1. Faça um **fork** do projeto.
 2. Crie uma nova branch com as suas alterações: `git checkout -b my-feature`
