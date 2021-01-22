@@ -59,8 +59,8 @@ const RecentGames = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log('rendering')
-	}, [])
+		console.log('rendering');
+	}, []);
 
 	// useEffect(() => {}, [games]);
 	let content = <Spinner />;

@@ -43,7 +43,6 @@ const AuthProvider = React.memo(({ children }) => {
 		}
 	}, [checkoutTime]);
 
-
 	const setErrorNull = () => {
 		setError(null);
 	};
@@ -99,15 +98,12 @@ const AuthProvider = React.memo(({ children }) => {
 		}
 		try {
 			const {
-				data: { token, expiresIn, userId }
+				data: { token, expiresIn, userId },
 			} = await api.post(url, userData, {
 				headers: {
 					'Content-Type': 'application/json',
 				},
 			});
-			// console.log(JSON.stringfy(data))
-			console.log(userId)
-			console.log(1)
 			// soma o tempo atual com o tempoo q leva para expirar o token e retorna uma data de expiração no futuro
 			const expirationTime = String(new Date().getTime() + +expiresIn);
 			localStorage.setItem('expirationTime', expirationTime);
