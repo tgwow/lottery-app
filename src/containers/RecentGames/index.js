@@ -52,7 +52,6 @@ const RecentGames = () => {
 				const { data } = await api.get(process.env.REACT_APP_API_URL + `/bets/${userId}`);
 				setBets(data);
 			} catch (err) {
-				// console.error(err.toJSON());
 				console.log(err.response.data);
 			}
 		}
