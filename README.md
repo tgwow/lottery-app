@@ -55,9 +55,8 @@ Antes de começar, você vai precisar ter instalado em sua máquina as seguintes
 $ git clone https://github.com/tgwow/lottery-app.git
 $ cd lottery-app
 $ npm install 
-
-# A aplicação inciará na porta:3000 - acesse http://localhost:3000 e começe a utilizar 
 ```
+A aplicação inciará na porta:3000. Acesse http://localhost:3000 e começe a utilizar.
 
 ---
 
