@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import api from '../services/api';
 
@@ -19,6 +19,12 @@ const AuthProvider = React.memo(({ children }) => {
 	const [loading, setLoading] = useState(false);
 	const history = useHistory();
 
+	const checkoutTime = useCallback((expiresIn) => {
+		setTimeout(() => {
+			handleSignOut();
+		}, expiresIn);
+	}, []);
+
 	useEffect(() => {
 		const token = localStorage.getItem('token');
 		const expirationTime = localStorage.getItem('expirationTime');
@@ -35,13 +41,8 @@ const AuthProvider = React.memo(({ children }) => {
 			api.defaults.headers['Authorization'] = `Bearer ${token}`;
 			setToken(token);
 		}
-	}, []);
+	}, [checkoutTime]);
 
-	const checkoutTime = (expiresIn) => {
-		setTimeout(() => {
-			handleSignOut();
-		}, expiresIn);
-	};
 
 	const setErrorNull = () => {
 		setError(null);
@@ -98,12 +99,15 @@ const AuthProvider = React.memo(({ children }) => {
 		}
 		try {
 			const {
-				data: { token, expiresIn, userId },
+				data: { token, expiresIn, userId }
 			} = await api.post(url, userData, {
 				headers: {
 					'Content-Type': 'application/json',
 				},
 			});
+			// console.log(JSON.stringfy(data))
+			console.log(userId)
+			console.log(1)
 			// soma o tempo atual com o tempoo q leva para expirar o token e retorna uma data de expiração no futuro
 			const expirationTime = String(new Date().getTime() + +expiresIn);
 			localStorage.setItem('expirationTime', expirationTime);

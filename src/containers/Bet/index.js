@@ -110,7 +110,7 @@ const Bet = React.memo(() => {
 
 	useEffect(() => {
 		dispatch({ type: 'filter/CLEAR_TYPE', optionType: 'Lotofácil' });
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		handleClearGame();
@@ -121,7 +121,7 @@ const Bet = React.memo(() => {
 	const handleSaveGame = async () => {
 		// betType.min_cart_value
 		if (cart.totalPrice < 5) {
-			alert.show(`You must spend at least ${formatMoney(betType.min_cart_value)}`);
+			alert.show(`You must spend at least ${formatMoney(5)}`);
 			return;
 		}
 		statusDispatch({ type: 'status/START' });

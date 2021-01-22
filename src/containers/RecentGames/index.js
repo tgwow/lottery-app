@@ -58,6 +58,10 @@ const RecentGames = () => {
 		fetchBets();
 	}, []);
 
+	useEffect(() => {
+		console.log('rendering')
+	}, [])
+
 	// useEffect(() => {}, [games]);
 	let content = <Spinner />;
 	if (bets.length > 0) {
