@@ -27,6 +27,11 @@ Esta é a versão web do projeto The Greatest Lottery App, a ideia é simular um
 Projeto desenvolvido durante o **Lab Luby** na [Luby Software](https://www.luby.com.br/) durante meu período de treinamento.
 Foi utilizado o framework [ReactJS](https://reactjs.org/), visto que este tem uma grande comunidade criando diversas libs que auxiliam no desenvolvimento e um suporte com constante atualizações, o que torna este um dos frameworks mais populares para desenvolvimento de interfaces.
 
+## 🎨 Layout
+
+<p align="center">
+  <img src="./assets/lottery-web-GIF.gif" width="800" height="395" alt="Video mostrando a aplicação web"/>
+</p>
 
 ## ⚙️ Funcionalidades
 
