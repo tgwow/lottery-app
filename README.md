@@ -1,4 +1,4 @@
-<p align="center">
+<p style="text-align:center">
 	<h1>Lottery APP - The Greatest Lottery App</h1>
 </p>
 <p align="center">
@@ -27,7 +27,6 @@ Esta é a versão web do projeto The Greatest Lottery App, a ideia é simular um
 Projeto desenvolvido durante o **Lab Luby** na [Luby Software](https://www.luby.com.br/) durante meu período de treinamento.
 Foi utilizado o framework [ReactJS](https://reactjs.org/), visto que este tem uma grande comunidade criando diversas libs que auxiliam no desenvolvimento e um suporte com constante atualizações, o que torna este um dos frameworks mais populares para desenvolvimento de interfaces.
 
----
 
 ## ⚙️ Funcionalidades
 
@@ -38,7 +37,6 @@ Foi utilizado o framework [ReactJS](https://reactjs.org/), visto que este tem um
 - [x] Filtrar suas apostas feitas
 - [x] Carregar os tipos de aposta
 
----
 
 ## 🚀 Instalação
 
@@ -59,7 +57,6 @@ $ npm install
 ```
 A aplicação inciará na porta:3000. Acesse http://localhost:3000 e começe a utilizar.
 
----
 
 ## 🛠 Tecnologias
 
@@ -76,7 +73,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 -   **[Yup](https://github.com/jquense/yup)**
 -   **[React Icons](https://react-icons.github.io/react-icons/)**
 
----
 
 ## 💪 Contribuindo
 
@@ -86,7 +82,6 @@ As seguintes ferramentas foram usadas na construção do projeto:
 4. Envie as suas alterações: `git push origin my-feature`
 > Caso tenha alguma dúvida confira este [guia de como contribuir no GitHub](./CONTRIBUTING.md)
 
----
 
 ## 🦸 Autor
 
@@ -98,12 +93,9 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 [![Twitter Badge](https://img.shields.io/badge/-@theveloper_tg-1ca0f1?style=flat-square&labelColor=1ca0f1&logo=twitter&logoColor=white&link=https://twitter.com/theveloper_tg)](https://twitter.com/theveloper_tg) [![Linkedin Badge](https://img.shields.io/badge/-Thiago-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/thiago-oliveira-86758738/)](https://www.linkedin.com/in/thiago-oliveira-86758738/)
 
----
 
 ## 📝 Licença
 
 Este projeto esta sobe a licença [MIT](./LICENSE).
 
 Feito com ❤️ por Thiago Oliveira 👋🏽 [Entre em contato!](https://www.linkedin.com/in/thiago-oliveira-86758738/)
-
----
