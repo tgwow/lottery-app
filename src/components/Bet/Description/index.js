@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import Headings from '../../../components/UI/Headings';
+import FilterOptions from '../../FilterOptions';
 
 const Filter = styled.nav`
 	display: flex;
 	align-items: center;
 `;
-
-import Headings from '../../../components/UI/Headings';
-import FilterOptions from '../../FilterOptions';
 
 const Description = ({ type, desc }) => {
 	return (

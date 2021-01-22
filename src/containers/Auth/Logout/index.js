@@ -6,7 +6,7 @@ const Logout = () => {
 	const { handleSignOut } = useContext(AuthContext);
 	useEffect(() => {
 		handleSignOut();
-	}, []);
+	}, [handleSignOut]);
 	return <Redirect to="/" />;
 };
 
